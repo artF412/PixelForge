@@ -18,12 +18,12 @@ How to use:
 
 ## For developers (editing code / rebuilding)
 
+> **Note:** `build.bat` and the `branding/` folder (app icon) are not included in this repo. To build your own `.exe`, you'll need to supply a `build.bat` (PyInstaller `--onefile --windowed` build, bundling `oiiotool.exe`/DLLs from your `OpenImageIO` install) and a `branding/pixelforge.ico` icon yourself.
+
 ### File structure
 - `main.py` — GUI (tkinter)
 - `resizer.py` — image resizing logic (kept separate from the GUI so it's easy to test/reuse)
 - `requirements.txt` — dependencies for running from source
-- `build.bat` — script that builds a single-file `.exe`
-- `branding/pixelforge.ico` — the app icon (used both as the `.exe` icon and the window/taskbar icon at runtime). To change the logo, replace this file (export a square PNG at least 256x256, then convert to `.ico` with Pillow: `Image.open(...).convert("RGBA").save("branding/pixelforge.ico", sizes=[(16,16),(24,24),(32,32),(48,48),(64,64),(128,128),(256,256)])`)
 
 ### Run from source
 ```bat
@@ -33,13 +33,12 @@ venv\Scripts\python main.py
 ```
 
 ### Build a distributable .exe
+Since `build.bat` isn't included, build manually with PyInstaller once it's installed:
 ```bat
 venv\Scripts\pip install pyinstaller
-build.bat
+venv\Scripts\python -m PyInstaller --onefile --windowed --name "PixelForge" main.py
 ```
-This produces `dist\PixelForge.exe` — copy it to any machine and run it directly (tested to work without Python/OpenImageIO installed on the target machine).
-
-Note: `build.bat` automatically pulls `oiiotool.exe` and its related DLLs from the venv (installed alongside the `OpenImageIO` package from PyPI) and bundles them into the `.exe` — no need to download OpenImageIO separately.
+This produces `dist\PixelForge.exe`. To bundle `oiiotool.exe` (needed for `.exr` support) and an icon so the build runs standalone, pass PyInstaller's `--add-data` and `--icon` flags pointing at your own `oiiotool` binary (ships with the `OpenImageIO` PyPI package) and `.ico` file.
 
 ## Known limitations
 - `.exr` files are processed via `oiiotool` (an external process); everything else (jpg/png/bmp/tif/webp) is processed directly in-app with Pillow.
