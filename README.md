@@ -4,18 +4,6 @@ A GUI tool for resizing images — single files or whole folders — using ready
 
 Supported formats: `.exr` `.jpg` `.jpeg` `.png` `.bmp` `.tif` `.tiff` `.webp`
 
-## For end users (nothing to install)
-
-Just double-click `dist\PixelForge.exe`. No need to install Python or anything else — everything (including `oiiotool` for `.exr` files) is bundled into the `.exe`.
-
-How to use:
-1. Choose a mode: **Batch Folder** or **Single File**
-2. Browse for the source file/folder and the output folder
-3. Pick a size from the Preset list, or choose "Custom" and enter Width/Height yourself
-4. Check "Keep aspect ratio" if you don't want the image distorted (it will fit within the target box while preserving the original proportions)
-5. Choose an Output format if you want to convert to JPG/PNG/TIFF (or leave it as "Original" to keep the source extension)
-6. Click **Convert / Resize**
-
 ## Running from source
 
 ```bat
